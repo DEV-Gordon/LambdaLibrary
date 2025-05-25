@@ -58,4 +58,11 @@ class Posts(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
-    
+
+class PostImage(models.Model):
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE, related_name='images')
+    image = models.ImageField(upload_to='post_images/')
+    uploaded_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Image for {self.post.title}"
