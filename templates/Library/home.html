@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Lambda{% endblock %}
+
+{% block content %}
+    <!-- Featured Articles -->
+    <div class="mb-12">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">Featured Models</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {% for post in featured_posts %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                {% if post.preview_image %}
+                <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                        <a href="{% url 'Library:post_detail' post.slug %}" class="hover:text-blue-600">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4">{{ post.created_at|date:"F j, Y" }}</p>
+                    <p class="text-gray-700">{{ post.description|truncatewords:30 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Latest Articles -->
+    <div>
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">Latest News</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for post in posts %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                {% if post.preview_image %}
+                <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
+                {% endif %}
+                <div class="p-6">
+                    <span class="text-sm font-medium text-blue-600">{{ article.category.name }}</span>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">
+                        <a href="{% url 'Library:post_detail' post.slug %}" class="hover:text-blue-600">
+                            {{ post.title }}
+                        </a>
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4">{{ post.created_at|date:"F j, Y" }}</p>
+                    <p class="text-gray-700">{{ post.content|truncatewords:20 }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <div class="mt-8 flex justify-center">
+            <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    Previous
+                </a>
+                {% endif %}
+
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                    Next
+                </a>
+                {% endif %}
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %} 
