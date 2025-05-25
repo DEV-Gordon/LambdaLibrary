@@ -19,9 +19,9 @@
         </header>
 
         <!-- Featured Image -->
-        {% if post.featured_image %}
+        {% if post.preview_image %}
         <div class="mb-8">
-            <img src="{{ post.featured_image.url }}" alt="{{ post.title }}" class="w-full h-96 object-cover rounded-lg">
+            <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="w-full h-96 object-cover rounded-lg">
         </div>
         {% endif %}
 
@@ -37,8 +37,8 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {% for related in related_models %}
                 <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                    {% if related.featured_image %}
-                    <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" class="w-full h-48 object-cover">
+                    {% if related.preview_image %}
+                    <img src="{{ related.preview_image.url }}" alt="{{ related.title }}" class="w-full h-48 object-cover">
                     {% endif %}
                     <div class="p-6">
                         <h3 class="text-xl font-semibold text-gray-900 mb-2">
