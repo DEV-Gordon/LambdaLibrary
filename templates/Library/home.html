@@ -5,21 +5,22 @@
 {% block content %}
     <!-- Featured Articles -->
     <div class="mb-12">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6">Featured Models</h2>
+        <h2 class="text-3xl font-bold text-slate-100 mb-6">Featured Models</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Cards -->
             {% for post in featured_posts %}
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
                 {% if post.preview_image %}
                 <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
                 {% endif %}
                 <div class="p-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">
-                        <a href="{% url 'Library:post_detail' post.slug %}" class="hover:text-blue-600">
+                    <h3 class="text-xl font-semibold text-slate-100 mb-2">
+                        <a href="{% url 'Library:post_detail' post.slug %}" class="hover:text-sky-400">
                             {{ post.title }}
                         </a>
                     </h3>
-                    <p class="text-gray-600 text-sm mb-4">{{ post.created_at|date:"F j, Y" }}</p>
-                    <p class="text-gray-700">{{ post.description|truncatewords:30 }}</p>
+                    <p class="text-slate-300 text-sm mb-4">{{ post.created_at|date:"F j, Y" }}</p>
+                    <p class="text-slate-300">{{ post.description|truncatewords:10 }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -28,22 +29,23 @@
 
     <!-- Latest Articles -->
     <div>
-        <h2 class="text-3xl font-bold text-gray-900 mb-6">Latest News</h2>
+        <h2 class="text-3xl font-bold text-slate-300 mb-6">Latest Models</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Cards -->
             {% for post in posts %}
-            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
                 {% if post.preview_image %}
                 <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
                 {% endif %}
                 <div class="p-6">
                     <span class="text-sm font-medium text-blue-600">{{ article.category.name }}</span>
-                    <h3 class="text-xl font-semibold text-gray-900 mb-2">
-                        <a href="{% url 'Library:post_detail' post.slug %}" class="hover:text-blue-600">
+                    <h3 class="text-xl font-semibold text-slate-100 mb-2">
+                        <a href="{% url 'Library:post_detail' post.slug %}" class="hover:text-sky-400">
                             {{ post.title }}
                         </a>
                     </h3>
-                    <p class="text-gray-600 text-sm mb-4">{{ post.created_at|date:"F j, Y" }}</p>
-                    <p class="text-gray-700">{{ post.description|truncatewords:20 }}</p>
+                    <p class="text-slate-300 text-sm mb-4">{{ post.created_at|date:"F j, Y" }}</p>
+                    <p class="text-slate-300">{{ post.description|truncatewords:10 }}</p>
                 </div>
             </div>
             {% endfor %}

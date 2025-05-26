@@ -6,21 +6,21 @@
     <title>{% block title %}Lambda{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-zinc-900">
     <!-- Navigation -->
-    <nav class="bg-white shadow-lg">
+    <nav class="bg-slate-100 shadow-lg">
         <div class="max-w-7xl mx-auto px-4">
             <div class="flex justify-between h-16">
                 <div class="flex">
                     <div class="flex-shrink-0 flex items-center">
-                        <a href="{% url 'Library:home' %}" class="text-2xl font-bold text-gray-800">Lambda</a>
+                        <a href="{% url 'Library:home' %}" class="text-2xl font-bold text-gray-900">Lambda</a>
                     </div>
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
-                        <a href="{% url 'Library:home' %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                        <a href="{% url 'Library:home' %}" class="border-transparent text-gray-800 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             Home
                         </a>
                         {% for category in categories %}
-                        <a href="{% url 'Library:category' category.slug %}" class="border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
+                        <a href="{% url 'Library:category' category.slug %}" class="border-transparent text-gray-800 hover:border-gray-300 hover:text-gray-700 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
                             {{ category.name }}
                         </a>
                         {% endfor %}
@@ -37,9 +37,9 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white shadow-lg mt-8">
+    <footer class="bg-slate-100 shadow-lg mt-8">
         <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-            <p class="text-center text-gray-500">&copy; 2025 Lambda Prototype. WIP By DEV-Gordon.</p>
+            <p class="text-center text-gray-800">&copy; 2025 Lambda Prototype. WIP By DEV-Gordon.</p>
         </div>
     </footer>
 </body>
