@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Category, Posts
+from django.http import FileResponse
+from django.db.models import F
 
 # Create your views here.
 class HomeView(ListView):
@@ -50,3 +52,17 @@ class PostDetailView(DetailView):
             published=True
         ).exclude(id=self.object.id)[:3]
         return context 
+
+# Download Function
+def download_post(request, slug):
+    post = get_object_or_404(Posts, slug=slug, published=True)
+    
+    # Count download increment
+    post.downloads = F('downloads') + 1
+    post.save(update_fields=['downloads'])
+    post.refresh_from_db()
+
+    # get name file 
+    file_path = post.model_file.path
+    response = FileResponse(open(file_path, 'rb'), as_attachment=True, filename=post.model_file.name)
+    return response
