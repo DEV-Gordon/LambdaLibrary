@@ -23,6 +23,7 @@
                         </a>
                         <a href="{% url 'Library:home' %}" class="text-2xl font-bold text-slate-100">Lambda</a>
                     </div>
+
                     <!-- Navigation desktop temp-->
                     <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
                         <a href="{% url 'Library:home' %}" class="border-transparent text-slate-100 hover:border-gray-300 hover:text-gray-100 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
@@ -34,6 +35,39 @@
                         </a>
                         {% endfor %}
                     </div>
+
+                    {% if user.is_authenticated %}
+                    <div x-data="{ open: false }" class="relative">
+                        <button @click="open = !open" class="text-slate-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium focus:outline-none">
+                            <span>Hola, {{ user.username }}</span>
+                            <svg class="w-4 h-4 inline-block ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        <div x-show="open" @click.away="open = false" 
+                            x-transition:enter="transition ease-out duration-100"
+                            x-transition:enter-start="transform opacity-0 scale-95"
+                            x-transition:enter-end="transform opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-75"
+                            x-transition:leave-start="transform opacity-100 scale-100"
+                            x-transition:leave-end="transform opacity-0 scale-95"
+                            class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-slate-700 ring-1 ring-black ring-opacity-5">
+                            
+                            <a href="{% url 'users:profile' %}" class="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600">My Profile</a>
+                            <a href="{% url 'password_change' %}" class="block px-4 py-2 text-sm text-slate-200 hover:bg-slate-600">Change Password</a>
+                            <div class="border-t border-slate-600 my-1"></div>
+                            
+                            <form method="post" action="{% url 'logout' %}" class="w-full">
+                                {% csrf_token %}
+                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-slate-200 hover:bg-slate-600">
+                                    Logout
+                                </button>
+                            </form>
+                            </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-slate-300 hover:text-sky-400 px-3 py-2 rounded-md text-sm font-medium">Login</a>
+                    <a href="{% url 'users:signup' %}" class="bg-sky-600 text-white hover:bg-sky-700 px-3 py-2 rounded-md text-sm font-medium">Sign Up</a>
+                {% endif %}
+
                 </div>
             </div>
         </div>

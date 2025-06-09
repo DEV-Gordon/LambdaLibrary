@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -37,7 +38,7 @@ class Posts(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name='models')
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='models')
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='models')
     model_file = models.FileField(upload_to='models/')
     preview_image = models.ImageField(upload_to='previews/')
