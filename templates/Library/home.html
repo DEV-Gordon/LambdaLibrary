@@ -9,7 +9,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Cards -->
             {% for post in featured_posts %}
-            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden min-h-[380px] max-w-[350px]">
                 {% if post.preview_image %}
                 <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
                 {% endif %}
@@ -20,7 +20,7 @@
                         </a>
                     </h3>
                     <p class="text-slate-300 text-sm mb-4">{{ post.created_at|date:"F j, Y" }}</p>
-                    <p class="text-slate-300">{{ post.description|truncatewords:10 }}</p>
+                    <p class="text-slate-300">{{ post.description|truncatewords:8 }}</p>
                 </div>
             </div>
             {% endfor %}
@@ -33,7 +33,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Cards -->
             {% for post in posts %}
-            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden">
+            <div class="bg-gray-800 rounded-lg shadow-md overflow-hidden min-h-[380px] max-w-[350px]">
                 {% if post.preview_image %}
                 <img src="{{ post.preview_image.url }}" alt="{{ post.title }}" class="w-full h-48 object-cover">
                 {% endif %}
