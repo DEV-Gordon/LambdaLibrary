@@ -43,6 +43,7 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
         context['related_models'] = Posts.objects.filter(
             category=self.object.category,
             published=True
