@@ -1,9 +1,12 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Category, Posts
 from django.http import FileResponse
 from django.db.models import F
 from django.contrib.auth.decorators import login_required
+from .forms import PostForm
+from django.urls import reverse_lazy
 
 # Create your views here.
 class HomeView(ListView):
@@ -21,7 +24,7 @@ class HomeView(ListView):
         context['categories'] = Category.objects.all()
         return context
 
-class CategoryView(ListView):
+class CategoryView(LoginRequiredMixin, ListView):
     model = Posts
     template_name = 'Library/category.html'
     context_object_name = 'posts'
@@ -37,7 +40,7 @@ class CategoryView(ListView):
         context['category'] = self.category
         return context
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = Posts
     template_name = 'Library/post_detail.html'
     context_object_name = 'post'
@@ -52,7 +55,44 @@ class PostDetailView(DetailView):
             category=self.object.category,
             published=True
         ).exclude(id=self.object.id)[:3]
-        return context 
+        return context
+
+class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model=Posts
+    form_class = PostForm
+    template_name = 'Library/users/post_form.html'
+    success_url = reverse_lazy('home')
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+
+class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Posts
+    form_class = PostForm
+    template_name = 'Library/users/post_form.html'
+    success_url = reverse_lazy('home') 
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author 
+
+class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Posts
+    template_name = 'Library/users/post_confirm_delete.html'
+    success_url = reverse_lazy('home') 
+
+    def test_func(self):
+        post = self.get_object()
+        return self.request.user == post.author 
+
+class UserPostsListView(LoginRequiredMixin, ListView):
+    model = Posts
+    template_name = 'Library/users/manage_posts.html' 
+    context_object_name = 'user_posts'
+
+    def get_queryset(self):
+        Posts.objects.filter(author=self.request.user).order_by('-created_at')
 
 # Download Function
 @login_required
