@@ -57,13 +57,14 @@ class PostDetailView(LoginRequiredMixin, DetailView):
         ).exclude(id=self.object.id)[:3]
         return context
 
-class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class PostCreateView(LoginRequiredMixin, CreateView):
     model=Posts
     form_class = PostForm
     template_name = 'Library/users/post_form.html'
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('Library:manage_posts')
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
         return super().form_valid(form)
 
 
@@ -71,7 +72,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Posts
     form_class = PostForm
     template_name = 'Library/users/post_form.html'
-    success_url = reverse_lazy('home') 
+    success_url = reverse_lazy('Library:manage_posts') 
 
     def test_func(self):
         post = self.get_object()
@@ -80,7 +81,7 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Posts
     template_name = 'Library/users/post_confirm_delete.html'
-    success_url = reverse_lazy('home') 
+    success_url = reverse_lazy('Library:manage_posts') 
 
     def test_func(self):
         post = self.get_object()
@@ -88,11 +89,11 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class UserPostsListView(LoginRequiredMixin, ListView):
     model = Posts
-    template_name = 'Library/users/manage_posts.html' 
+    template_name = 'Library/users/manage_posts.html'
     context_object_name = 'user_posts'
 
     def get_queryset(self):
-        Posts.objects.filter(author=self.request.user).order_by('-created_at')
+        return Posts.objects.filter(author=self.request.user).order_by('-created_at')
 
 # Download Function
 @login_required

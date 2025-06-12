@@ -30,8 +30,7 @@
             </div>
         {% endfor %}
 
-        <p class="text-slate-300">aca deberia ir el boton de administrar posts, que llevara a las plantillas de post form y user posts entre otras</p>
-        <a href="{% url 'users:profile' %}" class="block px-4 py-2 text-sm text-slate-100 hover:bg-slate-600">My Profile</a>
+        <a href="{% url 'Library:manage_posts' %}" class="block px-4 py-2 text-sm text-slate-100 hover:bg-slate-600">Manage Posts</a>
     </div>
 </div>
 {% endblock %}

@@ -2,15 +2,15 @@
 {% block content %}
     <div class="container">
         <h2>Mis Posts</h2>
-        <a href="{% url 'post_create' %}" class="btn btn-primary mb-3">Create New Posts</a>
+        <a href="{% url 'Library:post_create' %}" class="btn btn-primary mb-3">Create New Posts</a>
         {% if user_posts %}
             <ul class="list-group">
                 {% for post in user_posts %}
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a>
+                        <a href="{% url 'Library:post_detail' post.pk %}">{{ post.title }}</a>
                         <div>
-                            <a href="{% url 'post_update' post.pk %}" class="btn btn-sm btn-info">Edit</a>
-                            <a href="{% url 'post_delete' post.pk %}" class="btn btn-sm btn-danger">Delete</a>
+                            <a href="{% url 'Library:post_update' post.pk %}" class="btn btn-sm btn-info">Edit</a>
+                            <a href="{% url 'Library:post_delete' post.pk %}" class="btn btn-sm btn-danger">Delete</a>
                         </div>
                     </li>
                 {% endfor %}
