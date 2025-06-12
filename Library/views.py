@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView
 from .models import Category, Posts
 from django.http import FileResponse
 from django.db.models import F
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class HomeView(ListView):
@@ -19,7 +20,7 @@ class HomeView(ListView):
         context['featured_posts'] = Posts.objects.filter(published=True, featured=True)[:3]
         context['categories'] = Category.objects.all()
         return context
-    
+
 class CategoryView(ListView):
     model = Posts
     template_name = 'Library/category.html'
@@ -35,7 +36,7 @@ class CategoryView(ListView):
         context['categories'] = Category.objects.all()
         context['category'] = self.category
         return context
-    
+
 class PostDetailView(DetailView):
     model = Posts
     template_name = 'Library/post_detail.html'
@@ -54,6 +55,7 @@ class PostDetailView(DetailView):
         return context 
 
 # Download Function
+@login_required
 def download_post(request, slug):
     post = get_object_or_404(Posts, slug=slug, published=True)
     

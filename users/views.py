@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from Library.models import Posts
+from Library.models import Posts, Category
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
@@ -14,8 +14,13 @@ class SignUpView(generic.CreateView):
 class ProfileView(LoginRequiredMixin, ListView):
     model = Posts
     template_name = 'users/profile.html'
-    context_object_name = 'user_posts' # Nombre de la variable en la plantilla
+    context_object_name = 'user_posts'
 
     def get_queryset(self):
-        # Filtra los posts para mostrar solo los del usuario que ha iniciado sesión
+        # Filtrar post por el usuario
         return Posts.objects.filter(author=self.request.user).order_by('-created_at')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
